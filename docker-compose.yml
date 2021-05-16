@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  app:
+    container_name: "app"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    env_file:
+      - .env
