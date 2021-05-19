@@ -13,7 +13,7 @@ type (
 
 	// PlanetFinder defines the search operation for a account entity
 	PlanetFinder interface {
-		FindAll(context.Context, string) ([]Planet, error)
+		FindAll(context.Context) ([]Planet, error)
 		FindByID(context.Context, string) (Planet, error)
 		FindByName(context.Context, string) (Planet, error)
 	}

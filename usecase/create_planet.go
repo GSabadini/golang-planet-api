@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/GSabadini/golang-planet-api/domain"
+	"github.com/google/uuid"
 )
 
 type (
@@ -35,7 +36,7 @@ type (
 	}
 
 	createPlanetInteractor struct {
-		repo       domain.PlanetCreator
+		repository domain.PlanetCreator
 		presenter  CreatePlanetPresenter
 		ctxTimeout time.Duration
 	}
@@ -43,18 +44,18 @@ type (
 
 func NewCreatePlanetInteractor(repo domain.PlanetCreator, presenter CreatePlanetPresenter, ctxTimeout time.Duration) CreatePlanetUseCase {
 	return createPlanetInteractor{
-		repo:       repo,
+		repository: repo,
 		presenter:  presenter,
 		ctxTimeout: ctxTimeout,
 	}
 }
 
 func (c createPlanetInteractor) Execute(ctx context.Context, input CreatePlanetInput) (CreatePlanetOutput, error) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, c.ctxTimeout*time.Second)
 	defer cancel()
 
-	planet, err := c.repo.Create(ctx, domain.NewPlanet(
-		"uuid.New()",
+	planet, err := c.repository.Create(ctx, domain.NewPlanet(
+		uuid.New().String(),
 		input.Name,
 		input.Climate,
 		input.Ground,

@@ -10,12 +10,12 @@ import (
 	"github.com/GSabadini/golang-planet-api/domain"
 )
 
-type stubPlanetCreatorRepo struct {
+type stubPlanetCreatorRepository struct {
 	result domain.Planet
 	err    error
 }
 
-func (s stubPlanetCreatorRepo) Create(_ context.Context, _ domain.Planet) (domain.Planet, error) {
+func (s stubPlanetCreatorRepository) Create(_ context.Context, _ domain.Planet) (domain.Planet, error) {
 	return s.result, s.err
 }
 
@@ -52,7 +52,7 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 		{
 			name: "Should successfully create a new planet",
 			fields: fields{
-				repo: stubPlanetCreatorRepo{
+				repo: stubPlanetCreatorRepository{
 					result: domain.NewPlanet(
 						"fakeID",
 						"fakeName",
@@ -80,7 +80,7 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 		{
 			name: "Should fail to the create a new planet",
 			fields: fields{
-				repo: stubPlanetCreatorRepo{
+				repo: stubPlanetCreatorRepository{
 					result: domain.Planet{},
 					err:    errors.New("failed to create the planet"),
 				},
