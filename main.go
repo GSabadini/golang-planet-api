@@ -7,7 +7,10 @@ import (
 
 func main() {
 	http.HandleFunc("/hello", func(writer http.ResponseWriter, request *http.Request) {
-		writer.Write([]byte("hello"))
+		_, err := writer.Write([]byte("hello"))
+		if err != nil {
+			log.Fatal(err)
+		}
 	})
 
 	log.Println("start arver")

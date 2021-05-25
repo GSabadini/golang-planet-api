@@ -20,11 +20,11 @@ type (
 
 	// FindAllPlanetOutput output data
 	FindAllPlanetOutput struct {
-		ID         string `json:"id"`
-		Name       string `json:"name"`
-		Climate    string `json:"climate"`
-		Ground     string `json:"ground"`
-		FindAlldAt string `json:"created_at"`
+		ID        string `json:"id"`
+		Name      string `json:"name"`
+		Climate   string `json:"climate"`
+		Ground    string `json:"ground"`
+		CreatedAt string `json:"created_at"`
 	}
 
 	findAllPlanetInteractor struct {
@@ -34,6 +34,7 @@ type (
 	}
 )
 
+// NewFindAllPlanetInteractor creates new findAllPlanetInteractor with its dependencies
 func NewFindAllPlanetInteractor(
 	repository domain.PlanetFinder,
 	presenter FindAllPlanetPresenter,
@@ -46,6 +47,7 @@ func NewFindAllPlanetInteractor(
 	}
 }
 
+// Execute orchestrates the use case
 func (f findAllPlanetInteractor) Execute(ctx context.Context) ([]FindAllPlanetOutput, error) {
 	ctx, cancel := context.WithTimeout(ctx, f.ctxTimeout*time.Second)
 	defer cancel()
