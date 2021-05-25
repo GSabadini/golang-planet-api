@@ -20,9 +20,9 @@ func (s stubPlanetFinderRepository) FindAll(_ context.Context) ([]domain.Planet,
 	return s.result, s.err
 }
 
-type stubPlanetFinderPresenter struct{}
+type stubFindAllPlanetPresenter struct{}
 
-func (s stubPlanetFinderPresenter) Output(planets []domain.Planet) []FindAllPlanetOutput {
+func (s stubFindAllPlanetPresenter) Output(planets []domain.Planet) []FindAllPlanetOutput {
 	var output = make([]FindAllPlanetOutput, 0)
 	for _, planet := range planets {
 		output = append(output, FindAllPlanetOutput{
@@ -74,7 +74,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 					},
 					err: nil,
 				},
-				presenter:  stubPlanetFinderPresenter{},
+				presenter:  stubFindAllPlanetPresenter{},
 				ctxTimeout: 0,
 			},
 			args: args{
@@ -103,7 +103,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 					result: []domain.Planet{},
 					err:    errors.New("failed to create the planet"),
 				},
-				presenter:  stubPlanetFinderPresenter{},
+				presenter:  stubFindAllPlanetPresenter{},
 				ctxTimeout: 0,
 			},
 			args: args{
@@ -115,13 +115,13 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			f := NewFindAllPlanetInteractor(
+			interactor := NewFindAllPlanetInteractor(
 				tt.fields.repository,
 				tt.fields.presenter,
 				tt.fields.ctxTimeout,
 			)
 
-			got, err := f.Execute(tt.args.ctx)
+			got, err := interactor.Execute(tt.args.ctx)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("[TestCase '%s'] Err: '%v' | WantErr: '%v'", tt.name, err, tt.wantErr)
 				return

@@ -97,13 +97,13 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := NewCreatePlanetInteractor(
+			interactor := NewCreatePlanetInteractor(
 				tt.fields.repo,
 				tt.fields.presenter,
 				tt.fields.ctxTimeout,
 			)
 
-			got, err := c.Execute(tt.args.ctx, tt.args.input)
+			got, err := interactor.Execute(tt.args.ctx, tt.args.input)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("[TestCase '%s'] Err: '%v' | WantErr: '%v'", tt.name, err, tt.wantErr)
 				return

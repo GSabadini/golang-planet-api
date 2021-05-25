@@ -42,14 +42,20 @@ type (
 	}
 )
 
-func NewCreatePlanetInteractor(repo domain.PlanetCreator, presenter CreatePlanetPresenter, ctxTimeout time.Duration) CreatePlanetUseCase {
+// NewCreatePlanetInteractor creates new createPlanetInteractor with its dependencies
+func NewCreatePlanetInteractor(
+	repository domain.PlanetCreator,
+	presenter CreatePlanetPresenter,
+	ctxTimeout time.Duration,
+) CreatePlanetUseCase {
 	return createPlanetInteractor{
-		repository: repo,
+		repository: repository,
 		presenter:  presenter,
 		ctxTimeout: ctxTimeout,
 	}
 }
 
+// Execute orchestrates the use case
 func (c createPlanetInteractor) Execute(ctx context.Context, input CreatePlanetInput) (CreatePlanetOutput, error) {
 	ctx, cancel := context.WithTimeout(ctx, c.ctxTimeout*time.Second)
 	defer cancel()
