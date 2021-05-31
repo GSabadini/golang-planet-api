@@ -21,13 +21,8 @@ func (s stubPlanetCreatorRepository) Create(_ context.Context, _ domain.Planet) 
 
 type stubCreatePlanetPresenter struct{}
 
-func (s stubCreatePlanetPresenter) Output(planet domain.Planet) CreatePlanetOutput {
-	return CreatePlanetOutput{
-		ID:      planet.ID(),
-		Name:    planet.Name(),
-		Climate: planet.Climate(),
-		Ground:  planet.Ground(),
-	}
+func (s stubCreatePlanetPresenter) Output(planet domain.Planet) domain.Planet {
+	return planet
 }
 
 func Test_createPlanetInteractor_Execute(t *testing.T) {
@@ -46,7 +41,7 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    CreatePlanetOutput
+		want    domain.Planet
 		wantErr bool
 	}{
 		{
@@ -69,12 +64,13 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 				ctx:   context.TODO(),
 				input: CreatePlanetInput{},
 			},
-			want: CreatePlanetOutput{
-				ID:      "fakeID",
-				Name:    "fakeName",
-				Climate: "fakeClimate",
-				Ground:  "fakeGround",
-			},
+			want: domain.NewPlanet(
+				"fakeID",
+				"fakeName",
+				"fakeClimate",
+				"fakeGround",
+				time.Time{},
+			),
 			wantErr: false,
 		},
 		{
@@ -91,7 +87,7 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 				ctx:   context.TODO(),
 				input: CreatePlanetInput{},
 			},
-			want:    CreatePlanetOutput{},
+			want:    domain.Planet{},
 			wantErr: true,
 		},
 	}

@@ -11,7 +11,7 @@ import (
 type (
 	// CreatePlanetUseCase input port
 	CreatePlanetUseCase interface {
-		Execute(context.Context, CreatePlanetInput) (CreatePlanetOutput, error)
+		Execute(context.Context, CreatePlanetInput) (domain.Planet, error)
 	}
 
 	// CreatePlanetInput input data
@@ -23,16 +23,7 @@ type (
 
 	// CreatePlanetPresenter output port
 	CreatePlanetPresenter interface {
-		Output(domain.Planet) CreatePlanetOutput
-	}
-
-	// CreatePlanetOutput output data
-	CreatePlanetOutput struct {
-		ID        string `json:"id"`
-		Name      string `json:"name"`
-		Climate   string `json:"climate"`
-		Ground    string `json:"ground"`
-		CreatedAt string `json:"created_at"`
+		Output(domain.Planet) domain.Planet
 	}
 
 	createPlanetInteractor struct {
@@ -56,7 +47,7 @@ func NewCreatePlanetInteractor(
 }
 
 // Execute orchestrates the use case
-func (c createPlanetInteractor) Execute(ctx context.Context, input CreatePlanetInput) (CreatePlanetOutput, error) {
+func (c createPlanetInteractor) Execute(ctx context.Context, input CreatePlanetInput) (domain.Planet, error) {
 	ctx, cancel := context.WithTimeout(ctx, c.ctxTimeout*time.Second)
 	defer cancel()
 

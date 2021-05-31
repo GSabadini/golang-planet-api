@@ -16,16 +16,24 @@ type (
 		Create(context.Context, Planet) (Planet, error)
 	}
 
-	// PlanetFinder defines the search operation for a planet entity
-	PlanetFinder interface {
+	// PlanetFinderAll defines the search operation for a planet entity
+	PlanetFinderAll interface {
 		FindAll(context.Context) ([]Planet, error)
-		FindByID(context.Context, string) (Planet, error)
+	}
+
+	// PlanetFinderByName defines the search operation for a planet entity
+	PlanetFinderByName interface {
 		FindByName(context.Context, string) (Planet, error)
+	}
+
+	// PlanetFinderByID defines the search operation for a planet entity
+	PlanetFinderByID interface {
+		FindByID(context.Context, string) (Planet, error)
 	}
 
 	// PlanetDeleter defines the operation of removing a planet entity
 	PlanetDeleter interface {
-		Delete(context.Context, int64) error
+		Delete(context.Context, string) error
 	}
 
 	// Planet defines the planet entity
