@@ -16,9 +16,9 @@ type (
 
 	// CreatePlanetInput input data
 	CreatePlanetInput struct {
-		Name    string `json:"name" validate:"required"`
-		Climate string `json:"climate" validate:"required"`
-		Ground  string `json:"ground" validate:"required"`
+		Name    string
+		Climate string
+		Terrain string
 	}
 
 	// CreatePlanetPresenter output port
@@ -55,7 +55,7 @@ func (c createPlanetInteractor) Execute(ctx context.Context, input CreatePlanetI
 		uuid.New().String(),
 		input.Name,
 		input.Climate,
-		input.Ground,
+		input.Terrain,
 		time.Now(),
 	))
 	if err != nil {

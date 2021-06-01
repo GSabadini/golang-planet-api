@@ -9,7 +9,12 @@ import (
 type (
 	// FindPlanetByIDUseCase input port
 	FindPlanetByIDUseCase interface {
-		Execute(context.Context, string) (domain.Planet, error)
+		Execute(context.Context, FindPlanetByIDInput) (domain.Planet, error)
+	}
+
+	// FindPlanetByIDInput input data
+	FindPlanetByIDInput struct {
+		ID string
 	}
 
 	// FindPlanetByIDPresenter output port
@@ -34,11 +39,11 @@ func NewFindPlanetByIDInteractor(
 }
 
 // Execute orchestrates the use case
-func (f findPlanetByIDInteractor) Execute(ctx context.Context, ID string) (domain.Planet, error) {
+func (f findPlanetByIDInteractor) Execute(ctx context.Context, input FindPlanetByIDInput) (domain.Planet, error) {
 	ctx, cancel := context.WithTimeout(ctx, f.ctxTimeout*time.Second)
 	defer cancel()
 
-	planet, err := f.repository.FindByID(ctx, ID)
+	planet, err := f.repository.FindByID(ctx, input.ID)
 	if err != nil {
 		return f.presenter.Output(domain.Planet{}), err
 	}

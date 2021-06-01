@@ -41,18 +41,24 @@ type (
 		id        string
 		name      string
 		climate   string
-		ground    string
+		terrain   string
+		film     Film
 		createdAt time.Time
+	}
+
+	// Film defines films property
+	Film struct {
+		appearedIn int
 	}
 )
 
 // NewPlanet creates new Planet
-func NewPlanet(id string, name string, climate string, ground string, time time.Time) Planet {
+func NewPlanet(id string, name string, climate string, terrain string, time time.Time) Planet {
 	return Planet{
 		id:        id,
 		name:      name,
 		climate:   climate,
-		ground:    ground,
+		terrain:   terrain,
 		createdAt: time,
 	}
 }
@@ -72,9 +78,9 @@ func (p Planet) Climate() string {
 	return p.climate
 }
 
-// Ground returns the ground property
-func (p Planet) Ground() string {
-	return p.ground
+// Terrain returns the terrain property
+func (p Planet) Terrain() string {
+	return p.terrain
 }
 
 // CreatedAt returns the createdAt property
