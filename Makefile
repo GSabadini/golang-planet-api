@@ -77,7 +77,7 @@ docker-clean: ## Clean docker containers and removes image
 
 .PHONY: docker-build
 docker-build: ## Build docker image for the project
-	docker build -t gsabadini/$(SYSTEM):$(SYSTEM_VERSION) .
+	@docker build --target builder -t gsabadini/$(SYSTEM):$(SYSTEM_VERSION) .
 
 .PHONY: docker-run
 docker-run: ## Run docker container for image project

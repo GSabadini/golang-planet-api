@@ -7,43 +7,34 @@ import (
 )
 
 type (
-	// FindByIDPlanetUseCase input port
-	FindByIDPlanetUseCase interface {
-		Execute(context.Context, string) (FindByIDPlanetOutput, error)
+	// FindPlanetByIDUseCase input port
+	FindPlanetByIDUseCase interface {
+		Execute(context.Context, string) (domain.Planet, error)
 	}
 
-	// FindByIDPlanetPresenter output port
-	FindByIDPlanetPresenter interface {
-		Output(domain.Planet) FindByIDPlanetOutput
+	// FindPlanetByIDPresenter output port
+	FindPlanetByIDPresenter interface {
+		Output(domain.Planet) domain.Planet
 	}
 
-	// FindByIDPlanetOutput output data
-	FindByIDPlanetOutput struct {
-		ID        string `json:"id"`
-		Name      string `json:"name"`
-		Climate   string `json:"climate"`
-		Ground    string `json:"ground"`
-		CreatedAt string `json:"created_at"`
-	}
-
-	findByIDPlanetInteractor struct {
-		repository domain.PlanetFinder
-		presenter  FindByIDPlanetPresenter
+	findPlanetByIDInteractor struct {
+		repository domain.PlanetFinderByID
+		presenter  FindPlanetByIDPresenter
 		ctxTimeout time.Duration
 	}
 )
 
-// NewFindByIDPlanetInteractor creates new findByIDPlanetInteractor with its dependencies
-func NewFindByIDPlanetInteractor(
-	repository domain.PlanetFinder,
-	presenter FindByIDPlanetPresenter,
+// NewFindPlanetByIDInteractor creates new findPlanetByIDInteractor with its dependencies
+func NewFindPlanetByIDInteractor(
+	repository domain.PlanetFinderByID,
+	presenter FindPlanetByIDPresenter,
 	ctxTimeout time.Duration,
-) FindByIDPlanetUseCase {
-	return findByIDPlanetInteractor{repository: repository, presenter: presenter, ctxTimeout: ctxTimeout}
+) FindPlanetByIDUseCase {
+	return findPlanetByIDInteractor{repository: repository, presenter: presenter, ctxTimeout: ctxTimeout}
 }
 
 // Execute orchestrates the use case
-func (f findByIDPlanetInteractor) Execute(ctx context.Context, ID string) (FindByIDPlanetOutput, error) {
+func (f findPlanetByIDInteractor) Execute(ctx context.Context, ID string) (domain.Planet, error) {
 	ctx, cancel := context.WithTimeout(ctx, f.ctxTimeout*time.Second)
 	defer cancel()
 

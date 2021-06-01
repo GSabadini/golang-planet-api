@@ -10,25 +10,16 @@ import (
 type (
 	// FindAllPlanetUseCase input port
 	FindAllPlanetUseCase interface {
-		Execute(context.Context) ([]FindAllPlanetOutput, error)
+		Execute(context.Context) ([]domain.Planet, error)
 	}
 
 	// FindAllPlanetPresenter output port
 	FindAllPlanetPresenter interface {
-		Output([]domain.Planet) []FindAllPlanetOutput
-	}
-
-	// FindAllPlanetOutput output data
-	FindAllPlanetOutput struct {
-		ID        string `json:"id"`
-		Name      string `json:"name"`
-		Climate   string `json:"climate"`
-		Ground    string `json:"ground"`
-		CreatedAt string `json:"created_at"`
+		Output([]domain.Planet) []domain.Planet
 	}
 
 	findAllPlanetInteractor struct {
-		repository domain.PlanetFinder
+		repository domain.PlanetFinderAll
 		presenter  FindAllPlanetPresenter
 		ctxTimeout time.Duration
 	}
@@ -36,7 +27,7 @@ type (
 
 // NewFindAllPlanetInteractor creates new findAllPlanetInteractor with its dependencies
 func NewFindAllPlanetInteractor(
-	repository domain.PlanetFinder,
+	repository domain.PlanetFinderAll,
 	presenter FindAllPlanetPresenter,
 	ctxTimeout time.Duration,
 ) FindAllPlanetUseCase {
@@ -48,7 +39,7 @@ func NewFindAllPlanetInteractor(
 }
 
 // Execute orchestrates the use case
-func (f findAllPlanetInteractor) Execute(ctx context.Context) ([]FindAllPlanetOutput, error) {
+func (f findAllPlanetInteractor) Execute(ctx context.Context) ([]domain.Planet, error) {
 	ctx, cancel := context.WithTimeout(ctx, f.ctxTimeout*time.Second)
 	defer cancel()
 

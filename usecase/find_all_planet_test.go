@@ -10,33 +10,24 @@ import (
 	"github.com/GSabadini/golang-planet-api/domain"
 )
 
-type stubPlanetFinderRepository struct {
-	domain.PlanetFinder
+type stubPlanetFinderAllRepository struct {
 	result []domain.Planet
 	err    error
 }
 
-func (s stubPlanetFinderRepository) FindAll(_ context.Context) ([]domain.Planet, error) {
+func (s stubPlanetFinderAllRepository) FindAll(_ context.Context) ([]domain.Planet, error) {
 	return s.result, s.err
 }
 
 type stubFindAllPlanetPresenter struct{}
 
-func (s stubFindAllPlanetPresenter) Output(planets []domain.Planet) []FindAllPlanetOutput {
-	var output = make([]FindAllPlanetOutput, 0)
-	for _, planet := range planets {
-		output = append(output, FindAllPlanetOutput{
-			ID:      planet.ID(),
-			Name:    planet.Name(),
-			Climate: planet.Climate(),
-			Ground:  planet.Ground(),
-		})
-	}
-	return output
+func (s stubFindAllPlanetPresenter) Output(planets []domain.Planet) []domain.Planet {
+	return planets
 }
+
 func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 	type fields struct {
-		repository domain.PlanetFinder
+		repository domain.PlanetFinderAll
 		presenter  FindAllPlanetPresenter
 		ctxTimeout time.Duration
 	}
@@ -49,13 +40,13 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    []FindAllPlanetOutput
+		want    []domain.Planet
 		wantErr bool
 	}{
 		{
 			name: "Should return a list of all the planets",
 			fields: fields{
-				repository: stubPlanetFinderRepository{
+				repository: stubPlanetFinderAllRepository{
 					result: []domain.Planet{
 						domain.NewPlanet(
 							"fakeID",
@@ -80,26 +71,28 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 			},
-			want: []FindAllPlanetOutput{
-				{
-					ID:      "fakeID",
-					Name:    "fakeName",
-					Climate: "fakeClimate",
-					Ground:  "fakeGround",
-				},
-				{
-					ID:      "fakeID2",
-					Name:    "fakeName2",
-					Climate: "fakeClimate2",
-					Ground:  "fakeGround2",
-				},
+			want: []domain.Planet{
+				domain.NewPlanet(
+					"fakeID",
+					"fakeName",
+					"fakeClimate",
+					"fakeGround",
+					time.Time{},
+				),
+				domain.NewPlanet(
+					"fakeID2",
+					"fakeName2",
+					"fakeClimate2",
+					"fakeGround2",
+					time.Time{},
+				),
 			},
 			wantErr: false,
 		},
 		{
 			name: "Should fail to return a list of all planets",
 			fields: fields{
-				repository: stubPlanetFinderRepository{
+				repository: stubPlanetFinderAllRepository{
 					result: []domain.Planet{},
 					err:    errors.New("failed to create the planet"),
 				},
@@ -109,7 +102,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 			},
-			want:    []FindAllPlanetOutput{},
+			want:    []domain.Planet{},
 			wantErr: true,
 		},
 	}
