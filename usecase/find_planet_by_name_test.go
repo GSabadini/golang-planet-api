@@ -33,8 +33,8 @@ func Test_findPlanetByNameInteractor_Execute(t *testing.T) {
 	}
 
 	type args struct {
-		ctx  context.Context
-		name string
+		ctx   context.Context
+		input FindPlanetByNameInput
 	}
 
 	tests := []struct {
@@ -52,7 +52,7 @@ func Test_findPlanetByNameInteractor_Execute(t *testing.T) {
 						"fakeID",
 						"fakeName",
 						"fakeClimate",
-						"fakeGround",
+						"fakeTerrain",
 						time.Time{},
 					),
 					err: nil,
@@ -61,14 +61,16 @@ func Test_findPlanetByNameInteractor_Execute(t *testing.T) {
 				ctxTimeout: 0,
 			},
 			args: args{
-				ctx:  context.TODO(),
-				name: "fakeName",
+				ctx: context.TODO(),
+				input: FindPlanetByNameInput{
+					ID: "fakeName",
+				},
 			},
 			want: domain.NewPlanet(
 				"fakeID",
 				"fakeName",
 				"fakeClimate",
-				"fakeGround",
+				"fakeTerrain",
 				time.Time{},
 			),
 			wantErr: false,
@@ -84,8 +86,10 @@ func Test_findPlanetByNameInteractor_Execute(t *testing.T) {
 				ctxTimeout: 0,
 			},
 			args: args{
-				ctx:  context.TODO(),
-				name: "fakeName",
+				ctx: context.TODO(),
+				input: FindPlanetByNameInput{
+					ID: "fakeName",
+				},
 			},
 			want:    domain.Planet{},
 			wantErr: true,
@@ -101,8 +105,10 @@ func Test_findPlanetByNameInteractor_Execute(t *testing.T) {
 				ctxTimeout: 0,
 			},
 			args: args{
-				ctx:  context.TODO(),
-				name: "fakeName",
+				ctx: context.TODO(),
+				input: FindPlanetByNameInput{
+					ID: "fakeName",
+				},
 			},
 			want:    domain.Planet{},
 			wantErr: true,
@@ -116,7 +122,7 @@ func Test_findPlanetByNameInteractor_Execute(t *testing.T) {
 				tt.fields.ctxTimeout,
 			)
 
-			got, err := interactor.Execute(tt.args.ctx, tt.args.name)
+			got, err := interactor.Execute(tt.args.ctx, tt.args.input)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("[TestCase '%s'] Err: '%v' | WantErr: '%v'", tt.name, err, tt.wantErr)
 				return
