@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"errors"
 	"testing"
 	"time"
 
@@ -54,7 +53,7 @@ func Test_deletePlanetInteractor_Execute(t *testing.T) {
 			name: "Should fail to delete a planet",
 			fields: fields{
 				repository: stubPlanetDeleterRepository{
-					err: errors.New("failed to delete the planet"),
+					err: domain.ErrDeletePlanet,
 				},
 				ctxTimeout: 0,
 			},

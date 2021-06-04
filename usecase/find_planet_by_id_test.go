@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"errors"
 	"reflect"
 	"testing"
 	"time"
@@ -53,6 +52,7 @@ func Test_findByIDPlanetInteractor_Execute(t *testing.T) {
 						"fakeName",
 						"fakeClimate",
 						"fakeTerrain",
+						domain.NewFilms(0),
 						time.Time{},
 					),
 					err: nil,
@@ -71,6 +71,7 @@ func Test_findByIDPlanetInteractor_Execute(t *testing.T) {
 				"fakeName",
 				"fakeClimate",
 				"fakeTerrain",
+				domain.NewFilms(0),
 				time.Time{},
 			),
 			wantErr: false,
@@ -99,7 +100,7 @@ func Test_findByIDPlanetInteractor_Execute(t *testing.T) {
 			fields: fields{
 				repository: stubPlanetFinderByIDRepository{
 					result: domain.Planet{},
-					err:    errors.New("failed find planet by id"),
+					err:    domain.ErrFindPlanetByID,
 				},
 				presenter:  stubFindPlanetByIDPresenter{},
 				ctxTimeout: 0,
