@@ -7,22 +7,26 @@ import (
 	"github.com/google/uuid"
 )
 
-type TrackingID struct{}
+type (
+	TrackingID string
+	//TrackingID struct{}
+)
 
-func NewTrackingID() *TrackingID {
-	return &TrackingID{}
-}
+//func NewTrackingID() *TrackingID {
+//	return &TrackingID{}
+//}
 
+// Execute exports X-Tracking-ID as an http middleware
 func (c TrackingID) Execute(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	ctx := r.Context()
-	id := r.Header.Get("X-Tracking-Id")
+	id := r.Header.Get("x-tracking-id")
 	if id == "" {
 		id = uuid.New().String()
 	}
 
-	ctx = context.WithValue(ctx, "tracking_id", id)
+	ctx = context.WithValue(ctx, TrackingID("tracking_id"), id)
 	r = r.WithContext(ctx)
 
-	w.Header().Set("X-Tracking-Id", id)
+	w.Header().Set("x-tracking-id", id)
 	next.ServeHTTP(w, r)
 }

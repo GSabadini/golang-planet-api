@@ -53,6 +53,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 							"fakeName",
 							"fakeClimate",
 							"fakeTerrain",
+							domain.NewFilms(0),
 							time.Time{},
 						),
 						domain.NewPlanet(
@@ -60,6 +61,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 							"fakeName2",
 							"fakeClimate2",
 							"fakeTerrain2",
+							domain.NewFilms(0),
 							time.Time{},
 						),
 					},
@@ -77,6 +79,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 					"fakeName",
 					"fakeClimate",
 					"fakeTerrain",
+					domain.NewFilms(0),
 					time.Time{},
 				),
 				domain.NewPlanet(
@@ -84,6 +87,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 					"fakeName2",
 					"fakeClimate2",
 					"fakeTerrain2",
+					domain.NewFilms(0),
 					time.Time{},
 				),
 			},
