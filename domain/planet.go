@@ -62,6 +62,16 @@ type (
 	}
 )
 
+// NewFilms creates new Fillms
+func NewFilms(appearedIn int) Films {
+	return Films{appearedIn: appearedIn}
+}
+
+// AppearedIn returns the films.appearedIn property
+func (p Planet) AppearedInFilms() int {
+	return p.films.appearedIn
+}
+
 // NewPlanet creates new Planet
 func NewPlanet(id string, name string, climate string, terrain string, films Films, time time.Time) Planet {
 	return Planet{
