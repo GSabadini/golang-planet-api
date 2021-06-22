@@ -7,7 +7,17 @@ import (
 )
 
 var (
-	ErrPlanetNotFound = errors.New("planet not found")
+	ErrPlanetNotFound = errors.New("not found planet")
+
+	ErrCreatePlanet = errors.New("error creating planet")
+
+	ErrDeletePlanet = errors.New("error deleting planet")
+
+	ErrFindAllPlanet = errors.New("error listing all planets")
+
+	ErrFindPlanetByID = errors.New("error finding planet by id")
+
+	ErrFindPlanetByName = errors.New("error finding planet by name")
 )
 
 type (
@@ -94,7 +104,17 @@ func (p Planet) Terrain() string {
 	return p.terrain
 }
 
+// AppearedInFilms returns the appearedIn property
+func (p Planet) AppearedInFilms() int {
+	return p.films.appearedIn
+}
+
 // CreatedAt returns the createdAt property
 func (p Planet) CreatedAt() time.Time {
 	return p.createdAt
+}
+
+// NewFilms creates new Films
+func NewFilms(appearedIn int) Films {
+	return Films{appearedIn: appearedIn}
 }

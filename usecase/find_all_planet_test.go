@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"errors"
 	"reflect"
 	"testing"
 	"time"
@@ -98,7 +97,7 @@ func Test_findAllPlanetInteractor_Execute(t *testing.T) {
 			fields: fields{
 				repository: stubPlanetFinderAllRepository{
 					result: []domain.Planet{},
-					err:    errors.New("failed to create the planet"),
+					err:    domain.ErrFindAllPlanet,
 				},
 				presenter:  stubFindAllPlanetPresenter{},
 				ctxTimeout: 0,

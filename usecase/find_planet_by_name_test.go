@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"errors"
 	"reflect"
 	"testing"
 	"time"
@@ -101,7 +100,7 @@ func Test_findPlanetByNameInteractor_Execute(t *testing.T) {
 			fields: fields{
 				repository: stubPlanetFinderByNameRepository{
 					result: domain.Planet{},
-					err:    errors.New("failed find planet by name"),
+					err:    domain.ErrFindPlanetByName,
 				},
 				presenter:  stubFindPlanetByNamePresenter{},
 				ctxTimeout: 0,
