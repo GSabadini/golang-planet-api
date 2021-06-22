@@ -7,7 +7,17 @@ import (
 )
 
 var (
-	ErrPlanetNotFound = errors.New("planet not found")
+	ErrPlanetNotFound = errors.New("not found planet")
+
+	ErrCreatePlanet = errors.New("error creating planet")
+
+	ErrDeletePlanet = errors.New("error deleting planet")
+
+	ErrFindAllPlanet = errors.New("error listing all planets")
+
+	ErrFindPlanetByID = errors.New("error finding planet by id")
+
+	ErrFindPlanetByName = errors.New("error finding planet by name")
 )
 
 type (
@@ -42,23 +52,24 @@ type (
 		name      string
 		climate   string
 		terrain   string
-		film     Film
+		films     Films
 		createdAt time.Time
 	}
 
-	// Film defines films property
-	Film struct {
+	// Films defines films property
+	Films struct {
 		appearedIn int
 	}
 )
 
 // NewPlanet creates new Planet
-func NewPlanet(id string, name string, climate string, terrain string, time time.Time) Planet {
+func NewPlanet(id string, name string, climate string, terrain string, films Films, time time.Time) Planet {
 	return Planet{
 		id:        id,
 		name:      name,
 		climate:   climate,
 		terrain:   terrain,
+		films:     films,
 		createdAt: time,
 	}
 }
@@ -83,7 +94,17 @@ func (p Planet) Terrain() string {
 	return p.terrain
 }
 
+// AppearedInFilms returns the appearedIn property
+func (p Planet) AppearedInFilms() int {
+	return p.films.appearedIn
+}
+
 // CreatedAt returns the createdAt property
 func (p Planet) CreatedAt() time.Time {
 	return p.createdAt
+}
+
+// NewFilms creates new Films
+func NewFilms(appearedIn int) Films {
+	return Films{appearedIn: appearedIn}
 }

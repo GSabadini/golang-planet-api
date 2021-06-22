@@ -7,6 +7,8 @@ import (
 	"github.com/google/uuid"
 )
 
+type trackingID string
+
 type TrackingID struct{}
 
 func NewTrackingID() *TrackingID {
@@ -20,7 +22,7 @@ func (c TrackingID) Execute(w http.ResponseWriter, r *http.Request, next http.Ha
 		id = uuid.New().String()
 	}
 
-	ctx = context.WithValue(ctx, "tracking_id", id)
+	ctx = context.WithValue(ctx, trackingID("tracking_id"), id)
 	r = r.WithContext(ctx)
 
 	w.Header().Set("X-Tracking-Id", id)

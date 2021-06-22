@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"errors"
 	"reflect"
 	"testing"
 	"time"
@@ -53,6 +52,7 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 						"fakeName",
 						"fakeClimate",
 						"fakeTerrain",
+						domain.NewFilms(0),
 						time.Time{},
 					),
 					err: nil,
@@ -69,6 +69,7 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 				"fakeName",
 				"fakeClimate",
 				"fakeTerrain",
+				domain.NewFilms(0),
 				time.Time{},
 			),
 			wantErr: false,
@@ -78,7 +79,7 @@ func Test_createPlanetInteractor_Execute(t *testing.T) {
 			fields: fields{
 				repo: stubPlanetCreatorRepository{
 					result: domain.Planet{},
-					err:    errors.New("failed to create the planet"),
+					err:    domain.ErrCreatePlanet,
 				},
 				presenter:  stubCreatePlanetPresenter{},
 				ctxTimeout: 0,

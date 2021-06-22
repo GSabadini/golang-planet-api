@@ -56,6 +56,7 @@ func (c createPlanetInteractor) Execute(ctx context.Context, input CreatePlanetI
 		input.Name,
 		input.Climate,
 		input.Terrain,
+		domain.NewFilms(0),
 		time.Now(),
 	))
 	if err != nil {
